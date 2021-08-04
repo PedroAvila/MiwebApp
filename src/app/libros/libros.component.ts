@@ -1,27 +1,38 @@
 import { ConstantPool } from "@angular/compiler";
-import { Component } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { LibrosService } from '../services/libros.service';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-libros',
   templateUrl: './libros.component.html'
 })
 
-export class LibrosComponent{
-  // libros = ['Matematica I', 'Algoritmos Básico', 'Algoritmo Nivel Básico'];
+export class LibrosComponent implements OnInit, OnDestroy {
+
  libros : string[] = [];
   constructor(private librosService: LibrosService){
-    this.libros = librosService.obtenerLibros();
   }
-
+  private libroSubscription : Subscription
   eliminarLibro(libro : any){
 
   }
 
   guardarLibro(f : any){
     if(f.valid){
-
+      this.librosService.agregarLibro(f.value.nombreLibro);
     }
+  }
+
+  ngOnInit(){
+    this.libros = this.librosService.obtenerLibros();
+    this.libroSubscription = this.librosService.librosSubject.subscribe(()=> {
+      this.libros = this.librosService.obtenerLibros();
+    });
+  }
+
+  ngOnDestroy(){
+    this.libroSubscription.unsubscribe();
   }
 
 }
