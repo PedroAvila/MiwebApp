@@ -1,5 +1,6 @@
 import { ConstantPool } from "@angular/compiler";
 import { Component } from "@angular/core";
+import { LibrosService } from '../services/libros.service';
 
 @Component({
   selector: 'app-libros',
@@ -7,15 +8,19 @@ import { Component } from "@angular/core";
 })
 
 export class LibrosComponent{
-  libros = ['Matematica I', 'Algoritmos Básico', 'Algoritmo Nivel Básico'];
+  // libros = ['Matematica I', 'Algoritmos Básico', 'Algoritmo Nivel Básico'];
+ libros : string[] = [];
+  constructor(private librosService: LibrosService){
+    this.libros = librosService.obtenerLibros();
+  }
 
   eliminarLibro(libro : any){
-    this.libros = this.libros.filter(p => p !== libro);
+
   }
 
   guardarLibro(f : any){
     if(f.valid){
-      this.libros.push(f.value.nombreLibro);
+
     }
   }
 
