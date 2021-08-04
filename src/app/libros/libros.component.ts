@@ -1,3 +1,4 @@
+import { ConstantPool } from "@angular/compiler";
 import { Component } from "@angular/core";
 
 @Component({
@@ -10,6 +11,12 @@ export class LibrosComponent{
 
   eliminarLibro(libro : any){
     this.libros = this.libros.filter(p => p !== libro);
+  }
+
+  guardarLibro(f : any){
+    if(f.valid){
+      this.libros.push(f.value.nombreLibro);
+    }
   }
 
 }
